@@ -22,16 +22,16 @@ jobs:
           dotnet-version: '6.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore myconsoleapp/myconsoleapp.csproj
+        run: dotnet restore MyConsoleApp/MyConsoleApp.csproj
 
       - name: Build
-        run: dotnet build myconsoleapp/myconsoleapp.csproj --no-restore
+        run: dotnet build MyConsoleApp/MyConsoleApp.csproj --no-restore
 
       - name: Test
-        run: dotnet test myconsoleapp/myconsoleapp.csproj --no-build --verbosity normal
+        run: dotnet test MyConsoleApp/MyConsoleApp.csproj --no-build --verbosity normal
 
       - name: Publish
-        run: dotnet publish myconsoleapp/myconsoleapp.csproj --no-build -o ${{ inputs.artifactPath }}
+        run: dotnet publish MyConsoleApp/MyConsoleApp.csproj --no-build -o ${{ inputs.artifactPath }}
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
