@@ -1,0 +1,33 @@
+name: .NET CD
+
+on:
+  workflow_call:
+    inputs:
+      artifactPath:
+        description: 'Path of build artifacts to deploy'
+        required: true
+        type: string
+      environment:
+        description: 'Deployment environment (e.g., production, staging)'
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Download Artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: Build-artifacts
+          path: ${{ inputs.artifactPath }}
+          
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.GH_PAT }}
+          publish_dir: ${{ inputs.artifactPath }}

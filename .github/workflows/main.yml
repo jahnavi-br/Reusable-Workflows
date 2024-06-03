@@ -1,0 +1,28 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment (e.g., production, staging)'
+        required: true
+        type: string
+
+jobs:
+  ci:
+    uses: ./.github/workflows/dotnet-ci.yml
+    with:
+      artifactPath: 'build_output'
+
+  cd:
+    needs: ci
+    uses: ./.github/workflows/dotnet-cd.yml
+    with:
+      artifactPath: 'build_output'
+      environment: ${{ github.event.inputs.environment }}
